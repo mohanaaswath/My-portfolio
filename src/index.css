@@ -1,0 +1,10 @@
+@tailwind base;@tailwind components;@tailwind utilities;
+@layer base{html{scroll-behavior:smooth}body{@apply bg-ink text-fg font-sans antialiased;background-image:radial-gradient(60rem 30rem at 85% -10%,rgba(139,92,246,.16),transparent),radial-gradient(40rem 25rem at -10% 30%,rgba(59,130,246,.10),transparent);background-attachment:fixed}
+:focus-visible{@apply outline outline-2 outline-offset-2 outline-cyan}}
+@layer components{.glass{@apply rounded-xl border border-white/10 bg-surface/70 backdrop-blur-md transition duration-300}
+.glass-hover:hover{@apply border-violet/50;box-shadow:0 8px 30px -12px rgba(139,92,246,.45)}
+.grad-text{@apply bg-gradient-to-r from-violet via-azure to-cyan bg-clip-text text-transparent}
+.chip{@apply rounded-md border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-xs text-muted}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.float{animation:float 6s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.float{animation:none}html{scroll-behavior:auto}}
