@@ -1,14 +1,27 @@
 name: Deploy to GitHub Pages
-on: { push: { branches: [main] }, workflow_dispatch: {} }
-permissions: { contents: read, pages: write, id-token: write }
-concurrency: { group: pages, cancel-in-progress: true }
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: npm }
+        with:
+          node-version: 20
+          cache: npm
       - run: npm ci
       - run: npm run build
         env:
@@ -16,12 +29,21 @@ jobs:
           VITE_SUPABASE_ANON_KEY: "${{ vars.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvZWFldHZieWhnbG1yZHNzaWZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM5Nzg2NzQsImV4cCI6MjEwOTU1NDY3NH0.R9tYxU4jq7-cY6HWrB6kbtxnQRJRaFDh3z1Av3tSLVQ' }}"
           VITE_FORM_ENDPOINT: "${{ vars.VITE_FORM_ENDPOINT }}"
           VITE_FORM_ACCESS_KEY: "${{ vars.VITE_FORM_ACCESS_KEY }}"
+      - name: Deploy to gh-pages branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          branch: gh-pages
       - uses: actions/upload-pages-artifact@v3
-        with: { path: dist }
+        with:
+          path: dist
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment: { name: github-pages, url: "${{ steps.d.outputs.page_url }}" }
+    environment:
+      name: github-pages
+      url: "${{ steps.d.outputs.page_url }}"
     steps:
       - id: d
         uses: actions/deploy-pages@v4
