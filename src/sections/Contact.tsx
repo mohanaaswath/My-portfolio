@@ -65,19 +65,19 @@ export default function Contact() {
       // 1. Prepare payload
       const payload: Record<string, string> = accessKey
         ? {
-            ...form,
-            access_key: accessKey,
-          }
+          ...form,
+          access_key: accessKey,
+        }
         : {
-            name: form.name.trim(),
-            email: form.email.trim(),
-            subject: form.subject.trim(),
-            message: form.message.trim(),
-            _subject: `New Portfolio Message from ${form.name}: ${form.subject}`,
-            _replyto: form.email.trim(),
-            _template: 'table',
-            _captcha: 'false',
-          }
+          name: form.name.trim(),
+          email: form.email.trim(),
+          subject: form.subject.trim(),
+          message: form.message.trim(),
+          _subject: `New Portfolio Message from ${form.name}: ${form.subject}`,
+          _replyto: form.email.trim(),
+          _template: 'table',
+          _captcha: 'false',
+        }
 
       // 2. Submit to email service
       const response = await fetch(endpoint, {

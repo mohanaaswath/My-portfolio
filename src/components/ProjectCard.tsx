@@ -1,8 +1,42 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ExternalLink, Github, ChevronDown, Pencil, Trash2, Code2 } from 'lucide-react'
+import {
+  ExternalLink,
+  Github,
+  ChevronDown,
+  Pencil,
+  Trash2,
+  Code2,
+  Wallet,
+  Mic,
+  Gamepad2,
+  Bus,
+  BarChart3,
+  type LucideIcon,
+} from 'lucide-react'
 import type { Project } from '../data/projects'
 import { asset } from '../lib/asset'
+
+const iconMap: Record<string, LucideIcon> = {
+  'pennywise-ai': Wallet,
+  'jarvis-ai': Mic,
+  'chess-game-ai': Gamepad2,
+  'bus-tracking': Bus,
+  'covid-19': BarChart3,
+}
+
+function resolveIcon(p: Project): LucideIcon {
+  if (typeof p.icon === 'function') {
+    return p.icon
+  }
+  if (p.icon && typeof p.icon === 'object' && ('$$typeof' in p.icon || 'render' in (p.icon as any))) {
+    return p.icon
+  }
+  if (p.id && iconMap[p.id]) {
+    return iconMap[p.id]
+  }
+  return Code2
+}
 
 export default function ProjectCard({
   p,
@@ -14,7 +48,7 @@ export default function ProjectCard({
   onDelete?: (id: string) => void
 }) {
   const [open, setOpen] = useState(false)
-  const Icon = p.icon || Code2
+  const Icon = resolveIcon(p)
 
   return (
     <motion.article whileHover={{ y: -4 }} className="glass glass-hover group relative flex flex-col overflow-hidden rounded-xl">

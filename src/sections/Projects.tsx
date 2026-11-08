@@ -8,6 +8,13 @@ import { supabase, isSupabaseConfigured, type SupabaseProject } from '../lib/sup
 
 const STORAGE_PROJECTS_KEY = 'mohana_saved_projects'
 
+const saveProjectsToStorage = (items: Project[]) => {
+  try {
+    const sanitized = items.map(({ icon, ...rest }) => rest)
+    localStorage.setItem(STORAGE_PROJECTS_KEY, JSON.stringify(sanitized))
+  } catch {}
+}
+
 export default function Projects() {
   const [projectList, setProjectList] = useState<Project[]>(() => {
     try {
@@ -15,7 +22,10 @@ export default function Projects() {
       if (saved) {
         const parsed = JSON.parse(saved) as Project[]
         if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed
+          return parsed.map(item => ({
+            ...item,
+            icon: undefined,
+          }))
         }
       }
     } catch {
@@ -74,9 +84,7 @@ export default function Projects() {
           const remainingInitials = initialProjects.filter(ip => !dbIds.has(ip.id))
           const combined = [...mapped, ...remainingInitials]
           setProjectList(combined)
-          try {
-            localStorage.setItem(STORAGE_PROJECTS_KEY, JSON.stringify(combined))
-          } catch {}
+          saveProjectsToStorage(combined)
         }
       } catch (err) {
         console.warn('Notice loading projects from Supabase:', err)
@@ -246,9 +254,7 @@ export default function Projects() {
       }
 
       setProjectList(updated)
-      try {
-        localStorage.setItem(STORAGE_PROJECTS_KEY, JSON.stringify(updated))
-      } catch {}
+      saveProjectsToStorage(updated)
 
       setSuccess(true)
       setTimeout(() => {
@@ -276,9 +282,7 @@ export default function Projects() {
 
     const updated = projectList.filter(p => p.id !== id)
     setProjectList(updated)
-    try {
-      localStorage.setItem(STORAGE_PROJECTS_KEY, JSON.stringify(updated))
-    } catch {}
+    saveProjectsToStorage(updated)
   }
 
   return (
