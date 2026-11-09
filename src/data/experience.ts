@@ -1,5 +1,6 @@
 export const experience = [
   {
+    category: 'internship',
     role: 'Full Stack Development Intern',
     org: 'EDU Tantr',
     period: 'May 2025 – Jun 2025',
@@ -11,6 +12,7 @@ export const experience = [
     ],
   },
   {
+    category: 'internship',
     role: 'Data Science Intern',
     org: 'Adroit Technologies',
     period: 'Dec 2025 – Jan 2026',
@@ -22,6 +24,7 @@ export const experience = [
     ],
   },
   {
+    category: 'internship',
     role: 'Artificial Intelligence Intern',
     org: 'Code Alpha',
     period: 'Sep 2026 – Sep 2026',
@@ -33,6 +36,7 @@ export const experience = [
     ],
   },
   {
+    category: 'content',
     role: 'Content Creator',
     org: 'UniqStack AI · @uniqstack_ai',
     period: 'Ongoing',
