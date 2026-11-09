@@ -25,8 +25,8 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          VITE_SUPABASE_URL: "${{ vars.VITE_SUPABASE_URL || 'https://goeaetvbyhglmrdssift.supabase.co' }}"
-          VITE_SUPABASE_ANON_KEY: "${{ vars.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvZWFldHZieWhnbG1yZHNzaWZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM5Nzg2NzQsImV4cCI6MjEwOTU1NDY3NH0.R9tYxU4jq7-cY6HWrB6kbtxnQRJRaFDh3z1Av3tSLVQ' }}"
+          VITE_SUPABASE_URL: "${{ vars.VITE_SUPABASE_URL }}"
+          VITE_SUPABASE_ANON_KEY: "${{ vars.VITE_SUPABASE_ANON_KEY }}"
           VITE_FORM_ENDPOINT: "${{ vars.VITE_FORM_ENDPOINT }}"
           VITE_FORM_ACCESS_KEY: "${{ vars.VITE_FORM_ACCESS_KEY }}"
       - name: Deploy to gh-pages branch

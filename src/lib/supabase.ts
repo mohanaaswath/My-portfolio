@@ -1,20 +1,13 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = (
-  import.meta.env.VITE_SUPABASE_URL ||
-  'https://goeaetvbyhglmrdssift.supabase.co'
-).trim()
-
-const supabaseAnonKey = (
-  import.meta.env.VITE_SUPABASE_ANON_KEY ||
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdvZWFldHZieWhnbG1yZHNzaWZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM5Nzg2NzQsImV4cCI6MjEwOTU1NDY3NH0.R9tYxU4jq7-cY6HWrB6kbtxnQRJRaFDh3z1Av3tSLVQ'
-).trim()
+const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL || '').trim()
+const supabaseAnonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '').trim()
 
 export const isSupabaseConfigured = Boolean(
-  supabaseUrl && 
-  supabaseAnonKey && 
-  !supabaseUrl.includes('your-project') &&
-  !supabaseAnonKey.includes('your-anon-key')
+  /^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(supabaseUrl) &&
+  supabaseAnonKey &&
+  !supabaseAnonKey.includes('your-anon-key') &&
+  !supabaseAnonKey.includes('******')
 )
 
 export const supabase = isSupabaseConfigured
@@ -42,5 +35,3 @@ export type SupabaseProject = {
   details: string[]
   created_at?: string
 }
-
-

@@ -32,5 +32,14 @@ export const experience = [
       'Gained deep foundational knowledge in modern Artificial Intelligence applications and emerging technologies',
     ],
   },
+  {
+    role: 'Content Creator',
+    org: 'UniqStack AI · @uniqstack_ai',
+    period: 'Ongoing',
+    points: [
+      'Create and curate educational content focused on artificial intelligence, technology, and full-stack development',
+      'Translate technical concepts into clear, engaging content for developers and technology enthusiasts',
+      'Build the UniqStack AI online presence by sharing practical insights, tools, and emerging technology trends',
+    ],
+  },
 ]
-
