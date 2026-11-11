@@ -17,6 +17,10 @@ const saveProjectsToStorage = (items: Project[]) => {
 
 export default function Projects() {
   const [projectList, setProjectList] = useState<Project[]>(() => {
+    if (isSupabaseConfigured) {
+      return initialProjects
+    }
+
     try {
       const saved = localStorage.getItem(STORAGE_PROJECTS_KEY)
       if (saved) {
@@ -84,7 +88,6 @@ export default function Projects() {
           const remainingInitials = initialProjects.filter(ip => !dbIds.has(ip.id))
           const combined = [...mapped, ...remainingInitials]
           setProjectList(combined)
-          saveProjectsToStorage(combined)
         }
       } catch (err) {
         console.warn('Notice loading projects from Supabase:', err)
@@ -254,7 +257,9 @@ export default function Projects() {
       }
 
       setProjectList(updated)
-      saveProjectsToStorage(updated)
+      if (!isSupabaseConfigured) {
+        saveProjectsToStorage(updated)
+      }
 
       setSuccess(true)
       setTimeout(() => {
@@ -282,7 +287,9 @@ export default function Projects() {
 
     const updated = projectList.filter(p => p.id !== id)
     setProjectList(updated)
-    saveProjectsToStorage(updated)
+    if (!isSupabaseConfigured) {
+      saveProjectsToStorage(updated)
+    }
   }
 
   return (
