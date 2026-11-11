@@ -23,10 +23,16 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      - name: Validate Supabase configuration
+        env:
+          SUPABASE_URL: "${{ vars.VITE_SUPABASE_URL || secrets.VITE_SUPABASE_URL }}"
+          SUPABASE_ANON_KEY: "${{ vars.VITE_SUPABASE_ANON_KEY || secrets.VITE_SUPABASE_ANON_KEY }}"
+        run: |
+          node -e "const url = process.env.SUPABASE_URL || ''; const key = process.env.SUPABASE_ANON_KEY || ''; if (!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url) || !key || key === '******' || key.includes('your-anon-key')) { console.error('Missing valid Supabase URL or anon key. Configure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY as GitHub Variables or Secrets.'); process.exit(1); }"
       - run: npm run build
         env:
-          VITE_SUPABASE_URL: "${{ vars.VITE_SUPABASE_URL }}"
-          VITE_SUPABASE_ANON_KEY: "${{ vars.VITE_SUPABASE_ANON_KEY }}"
+          VITE_SUPABASE_URL: "${{ vars.VITE_SUPABASE_URL || secrets.VITE_SUPABASE_URL }}"
+          VITE_SUPABASE_ANON_KEY: "${{ vars.VITE_SUPABASE_ANON_KEY || secrets.VITE_SUPABASE_ANON_KEY }}"
           VITE_FORM_ENDPOINT: "${{ vars.VITE_FORM_ENDPOINT }}"
           VITE_FORM_ACCESS_KEY: "${{ vars.VITE_FORM_ACCESS_KEY }}"
       - name: Deploy to gh-pages branch

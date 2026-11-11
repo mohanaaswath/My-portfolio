@@ -47,12 +47,14 @@ npm audit --omit=dev --audit-level=high
 
 ## Deployment
 
-Pushing to `main` runs `.github/workflows/deploy.yml`. The workflow builds the app and deploys it to GitHub Pages. Optional integration values can be configured as repository Actions variables:
+Pushing to `main` runs `.github/workflows/deploy.yml`. The workflow builds the app and deploys it to GitHub Pages. Optional integration values can be configured as repository Actions variables or secrets:
 
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_ANON_KEY`
 - `VITE_FORM_ENDPOINT`
 - `VITE_FORM_ACCESS_KEY`
+
+The local `.env` file is ignored by Git and is not available during GitHub Actions builds. Configure the Supabase values in the repository's **Settings → Secrets and variables → Actions** page. The workflow fails before deployment when valid Supabase credentials are missing.
 
 The Vite base path is `/My-portfolio/`, matching the repository name.
 
